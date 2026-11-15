@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أصنّف قوانين استخدام الإنترنت</title>
+<style>
+:root{--pink:#ff6fae;--purple:#8e5cf0;--blue:#4cb8ff;--ink:#3b2a6b;--ok:#2fbf71;--bad:#ff5c7a;--sun:#ffd23f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{font-family:"Segoe UI","Tahoma","Noto Naskh Arabic","Arial",sans-serif;color:var(--ink);overflow:hidden;
+background:radial-gradient(circle at 15% 20%,#ffd1e8 0,transparent 35%),radial-gradient(circle at 85% 80%,#c9e8ff 0,transparent 40%),linear-gradient(135deg,#f3e6ff,#e4f1ff);user-select:none;touch-action:manipulation}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:2vh 3vw;text-align:center}
+.screen.on{display:flex}
+h1{font-size:clamp(30px,6vw,68px);margin:.2em 0;color:var(--purple);text-shadow:3px 3px 0 #fff,6px 6px 0 #ffc2e0}
+p.sub{font-size:clamp(20px,3vw,34px);margin:.3em 0 1em;font-weight:700}
+.btn{font:inherit;font-weight:800;font-size:clamp(24px,4vw,44px);color:#fff;border:0;border-radius:60px;padding:.4em 1.4em;cursor:pointer;
+background:linear-gradient(180deg,var(--pink),var(--purple));box-shadow:0 8px 0 #5b34b5,0 14px 24px #8e5cf055;transition:transform .1s}
+.btn:active{transform:translateY(6px);box-shadow:0 2px 0 #5b34b5}
+.btn:focus-visible,.zone:focus-visible{outline:5px solid var(--sun)}
+.mascot{width:clamp(110px,20vh,200px);height:auto;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-3deg)}}
+.top{width:100%;max-width:1100px;display:flex;align-items:center;gap:2vw;margin-bottom:1vh}
+.bar{flex:1;height:26px;background:#fff;border-radius:20px;border:3px solid var(--purple);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pink));transition:width .4s;border-radius:20px}
+.pill{background:#fff;border:3px solid var(--purple);border-radius:30px;padding:.1em .7em;font-size:clamp(18px,2.6vw,28px);font-weight:800;white-space:nowrap}
+.guide{display:flex;align-items:center;gap:1.5vw;max-width:1100px;width:100%;justify-content:center}
+.guide .mascot{width:clamp(70px,13vh,130px)}
+.bubble{background:#fff;border:4px solid var(--purple);border-radius:26px;padding:.4em .9em;font-size:clamp(20px,3vw,34px);font-weight:800;min-width:40%;position:relative}
+.bubble.good{border-color:var(--ok);color:#12804a}.bubble.bad{border-color:var(--bad);color:#c42e4c}
+.stage{flex:1;width:100%;max-width:1100px;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;min-height:0}
+.card{background:#fff;border:5px solid var(--blue);border-radius:30px;padding:.6em 1em;width:min(92%,760px);font-size:clamp(26px,4.4vw,52px);font-weight:800;line-height:1.5;
+box-shadow:0 10px 0 #9fd6ff,0 18px 30px #4cb8ff44;cursor:grab;touch-action:none;position:relative;z-index:5}
+.card.drag{cursor:grabbing;transition:none;box-shadow:0 20px 40px #0003;z-index:50}
+.card.back{transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.card.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-16px)}40%,80%{transform:translateX(16px)}}
+.card.pop{animation:pop .45s forwards}
+@keyframes pop{to{transform:scale(.2) rotate(15deg);opacity:0}}
+.zones{display:flex;gap:3vw;width:100%}
+.zone{flex:1;border-radius:32px;border:6px dashed;padding:.5em;font-size:clamp(24px,4.2vw,50px);font-weight:900;cursor:pointer;font-family:inherit;transition:transform .15s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1em;min-height:18vh}
+.zone small{font-size:.5em;font-weight:700;opacity:.8}
+.zone.yes{background:#d9f8e6;border-color:var(--ok);color:#12804a}
+.zone.no{background:#ffe0e7;border-color:var(--bad);color:#c42e4c}
+.zone.hot{transform:scale(1.06);border-style:solid;box-shadow:0 0 0 8px #ffd23f99}
+.zone .e{font-size:1.5em}
+.stars{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;font-size:clamp(16px,2.4vw,26px);max-width:300px;min-height:1.2em}
+.big{font-size:clamp(70px,14vw,150px);font-weight:900;color:var(--purple);margin:.1em}
+.big span{font-size:.4em;color:var(--pink)}
+.conf{position:fixed;top:-30px;font-size:30px;pointer-events:none;z-index:99;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(720deg)}}
+@media (max-height:520px){.mascot{width:70px}.zone{min-height:14vh}}
+@media (prefers-reduced-motion:reduce){.mascot{animation:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="girl" viewBox="0 0 200 200">
+ <circle cx="42" cy="52" r="26" fill="#8e5cf0"/><circle cx="158" cy="52" r="26" fill="#8e5cf0"/>
+ <circle cx="42" cy="52" r="14" fill="#ff6fae"/><circle cx="158" cy="52" r="14" fill="#ff6fae"/>
+ <circle cx="100" cy="108" r="76" fill="#ffe0c2"/>
+ <path d="M28 98C30 40 80 28 100 28s70 12 72 70c-20-10-34-30-44-44-20 22-60 34-100 44z" fill="#8e5cf0"/>
+ <path d="M70 26l30-18 30 18z" fill="#ffd23f"/><circle cx="100" cy="8" r="7" fill="#ff6fae"/>
+ <ellipse cx="72" cy="112" rx="11" ry="15" fill="#3b2a6b"/><ellipse cx="128" cy="112" rx="11" ry="15" fill="#3b2a6b"/>
+ <circle cx="76" cy="106" r="4.5" fill="#fff"/><circle cx="132" cy="106" r="4.5" fill="#fff"/>
+ <circle cx="55" cy="138" r="12" fill="#ff9ec8" opacity=".7"/><circle cx="145" cy="138" r="12" fill="#ff9ec8" opacity=".7"/>
+ <path d="M80 142q20 22 40 0z" fill="#d6336c"/><path d="M90 150q10 8 20 0" fill="#ff8fb3"/>
+</symbol></defs></svg>
+
+<!-- الصفحة الرئيسية -->
+<section id="home" class="screen on">
+ <svg class="mascot" viewBox="0 0 200 200"><use href="#girl"/></svg>
+ <h1>🌐 أصنّف قوانين استخدام الإنترنت</h1>
+ <p class="sub">أنا «نجمة»، سأساعدك على اختيار السلوك الصحيح والسلوك الخاطئ! 💜</p>
+ <button class="btn" id="startBtn">ابدئي اللعب 🎮</button>
+</section>
+
+<!-- اللعبة -->
+<section id="play" class="screen">
+ <div class="top">
+  <div class="pill" id="count">١ / ١٠</div>
+  <div class="bar"><i id="fill"></i></div>
+  <div class="pill" id="score">⭐ 0</div>
+ </div>
+ <div class="guide">
+  <svg class="mascot" viewBox="0 0 200 200"><use href="#girl"/></svg>
+  <div class="bubble" id="say">اسحبي البطاقة إلى المكان المناسب، أو اضغطي على التصنيف! 👇</div>
+ </div>
+ <div class="stage">
+  <div class="card" id="card" role="button" tabindex="0"></div>
+  <div class="zones">
+   <button class="zone yes" id="zYes" data-v="1"><span class="e">🟢</span>سلوك صحيح ✅</button>
+   <button class="zone no" id="zNo" data-v="0"><span class="e">🔴</span>سلوك خاطئ ❌</button>
+  </div>
+  <div class="stars" id="stars"></div>
+ </div>
+</section>
+
+<!-- النهاية -->
+<section id="end" class="screen">
+ <svg class="mascot" viewBox="0 0 200 200"><use href="#girl"/></svg>
+ <h1>🎉 مبارك يا بطلة الإنترنت الآمن! 🎉</h1>
+ <p class="sub">لقد تعلمتِ كيف تستخدمين الإنترنت بطريقة صحيحة وآمنة!</p>
+ <div class="big" id="final"></div>
+ <p class="sub" id="msg"></p>
+ <div class="stars" id="endStars" style="font-size:clamp(24px,4vw,44px)"></div>
+ <button class="btn" id="againBtn" style="margin-top:2vh">العبِي مرة أخرى 🔁</button>
+</section>
+
+<script>
+const ALL=[
+["أطلب إذن والديّ قبل استخدام الإنترنت.",1],
+["أشارك كلمة المرور مع صديقاتي.",0],
+["أحافظ على معلوماتي الشخصية.",1],
+["أتحدث مع أشخاص غرباء على الإنترنت.",0],
+["أستخدم كلمات مهذبة عند التواصل مع الآخرين.",1],
+["أفتح الروابط المجهولة.",0],
+["أخبر والديّ إذا شاهدت شيئًا مزعجًا.",1],
+["أنشر صور الآخرين دون إذنهم.",0],
+["أستخدم الإنترنت للتعلم والبحث عن المعلومات.",1],
+["أقضي ساعات طويلة على الإنترنت دون استراحة.",0]];
+const $=id=>document.getElementById(id);
+const N=ALL.length;
+let order,idx,score,firstTry,busy;
+
+/* ---------- الأصوات (بدون ملفات خارجية) ---------- */
+let AC;
+function tone(f,t,d,type="sine",v=.25){
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;
+  g.gain.setValueAtTime(0,AC.currentTime+t);g.gain.linearRampToValueAtTime(v,AC.currentTime+t+.02);
+  g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+t+d);
+  o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+t);o.stop(AC.currentTime+t+d+.05);}catch(e){}
+}
+const sOK=()=>{tone(660,0,.15);tone(880,.12,.15);tone(1320,.24,.3)};
+const sBad=()=>{tone(300,0,.2,"triangle");tone(220,.18,.3,"triangle")};
+const sWin=()=>[523,659,784,1047,784,1047,1318].forEach((f,i)=>tone(f,i*.15,.3,"square",.15));
+
+/* ---------- التنقل ---------- */
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===id))}
+function say(t,c){const b=$("say");b.textContent=t;b.className="bubble "+(c||"")}
+const AR=n=>String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
+
+function start(){
+  order=[...ALL].sort(()=>Math.random()-.5);
+  idx=0;score=0;firstTry=true;busy=false;
+  $("stars").textContent="";$("score").textContent="⭐ 0";
+  show("play");load();
+}
+function load(){
+  const c=$("card");
+  c.className="card";c.style.transform="";c.textContent=order[idx][0];
+  $("count").textContent=AR(idx+1)+" / "+AR(N);
+  $("fill").style.width=(idx/N*100)+"%";
+  firstTry=true;busy=false;
+  say("اسحبي البطاقة إلى المكان المناسب، أو اضغطي على التصنيف! 👇");
+}
+
+/* ---------- الإجابة ---------- */
+function answer(v){
+  if(busy)return;
+  const c=$("card");
+  if(v===order[idx][1]){
+    busy=true;sOK();
+    if(firstTry){score++;$("stars").textContent+="⭐";$("score").textContent="⭐ "+score}
+    say("أحسنتِ يا بطلة! 🌟","good");
+    c.className="card pop";
+    burst(10);
+    setTimeout(()=>{idx++;idx<N?load():finish()},1100);
+  }else{
+    firstTry=false;sBad();
+    say("حاولي مرة أخرى 💗","bad");
+    c.style.transform="";
+    c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");
+  }
+}
+document.querySelectorAll(".zone").forEach(z=>z.addEventListener("click",()=>answer(+z.dataset.v)));
+
+/* ---------- السحب والإفلات (يعمل باللمس والماوس) ---------- */
+(function(){
+  const c=$("card");let sx,sy,drag=false;
+  const zoneAt=(x,y)=>{
+    for(const z of document.querySelectorAll(".zone")){
+      const r=z.getBoundingClientRect();
+      if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return z}return null};
+  c.addEventListener("pointerdown",e=>{
+    if(busy)return;drag=true;sx=e.clientX;sy=e.clientY;
+    c.setPointerCapture(e.pointerId);c.classList.remove("back","shake");c.classList.add("drag")});
+  c.addEventListener("pointermove",e=>{
+    if(!drag)return;
+    c.style.transform=`translate(${e.clientX-sx}px,${e.clientY-sy}px) rotate(${(e.clientX-sx)/40}deg)`;
+    const z=zoneAt(e.clientX,e.clientY);
+    document.querySelectorAll(".zone").forEach(q=>q.classList.toggle("hot",q===z))});
+  const end=e=>{
+    if(!drag)return;drag=false;c.classList.remove("drag");
+    const z=zoneAt(e.clientX,e.clientY);
+    document.querySelectorAll(".zone").forEach(q=>q.classList.remove("hot"));
+    if(z){
+      if(+z.dataset.v===order[idx][1]){c.style.transform=""}
+      answer(+z.dataset.v);
+    }else{c.classList.add("back");c.style.transform=""}
+  };
+  c.addEventListener("pointerup",end);
+  c.addEventListener("pointercancel",end);
+})();
+
+/* ---------- الاحتفال ---------- */
+function burst(n){
+  const e=["⭐","✨","💖","🎈","🌟","🎀","💜"];
+  for(let i=0;i<n;i++){
+    const s=document.createElement("div");s.className="conf";s.textContent=e[Math.random()*e.length|0];
+    s.style.left=Math.random()*100+"vw";s.style.fontSize=(20+Math.random()*28)+"px";
+    s.style.animationDuration=(2+Math.random()*2.5)+"s";s.style.animationDelay=Math.random()*.5+"s";
+    document.body.appendChild(s);setTimeout(()=>s.remove(),5500);
+  }
+}
+function finish(){
+  $("fill").style.width="100%";
+  $("final").innerHTML=AR(score)+"<span> / "+AR(N)+"</span>";
+  $("endStars").textContent="⭐".repeat(score)+"☆".repeat(N-score);
+  $("msg").textContent=score===N?"ممتازة! إجاباتك كلها صحيحة من أول مرة! 👑":
+    score>=7?"رائعة جدًا! أنتِ على الطريق الصحيح! 🌈":
+    score>=4?"أحسنتِ! جرّبي مرة أخرى لتحصلي على نتيجة أعلى! 💪":
+    "لا بأس يا بطلة، التعلّم يحتاج إلى تدريب. العبي مرة أخرى! 💗";
+  show("end");sWin();burst(60);setTimeout(()=>burst(40),1500);
+}
+$("startBtn").onclick=start;$("againBtn").onclick=start;
+</script>
+</body>
+</html>
